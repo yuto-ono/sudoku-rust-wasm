@@ -1,6 +1,7 @@
 <script lang="ts">
   import Board from "./Board.svelte"
   import ButtonBox from "./ButtonBox.svelte"
+  import Timer from "./Timer.svelte"
   import Title from "./Title.svelte"
 </script>
 
@@ -9,6 +10,7 @@
   <div class="container">
     <Board />
     <ButtonBox />
+    <Timer time={0} />
   </div>
 </main>
 
