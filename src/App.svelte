@@ -1,5 +1,6 @@
 <script lang="ts">
   import Board from "./Board.svelte"
+  import ButtonBox from "./ButtonBox.svelte"
   import Title from "./Title.svelte"
 </script>
 
@@ -7,6 +8,7 @@
   <Title>数独を一瞬で解いてしまうプログラム</Title>
   <div class="container">
     <Board />
+    <ButtonBox />
   </div>
 </main>
 

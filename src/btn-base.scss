@@ -1,0 +1,14 @@
+%btn-base {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  color: inherit;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 0.7;
+  }
+}
