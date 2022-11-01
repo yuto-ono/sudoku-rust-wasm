@@ -1,6 +1,41 @@
+<script lang="ts">
+  import CellInput from "./CellInput.svelte"
+
+  type CellType = {
+    num: number
+    inputed: boolean
+    element?: HTMLInputElement
+  }
+
+  const CELL_NUMBER = 81
+
+  let cells: CellType[] = [...Array(CELL_NUMBER)].map(() => ({
+    num: 0,
+    inputed: false,
+  }))
+
+  const onInput = (num: number, i: number) => {
+    cells[i].num = num
+    cells[i].inputed = num !== 0
+    if (i + 1 < CELL_NUMBER) {
+      cells[i + 1].element?.focus()
+    }
+  }
+
+  const setElement = (element: HTMLInputElement, i: number) => {
+    cells[i].element = element
+  }
+</script>
+
 <ul class="board">
-  {#each Array(81).fill(8) as num, i}
-    <li class="cell">{num}</li>
+  {#each cells as { num, inputed }, i}
+    <li class="cell" class:inputed>
+      <CellInput
+        {num}
+        on:input={(e) => onInput(e.detail.num, i)}
+        on:mount={(e) => setElement(e.detail.element, i)}
+      />
+    </li>
   {/each}
 </ul>
 
@@ -19,12 +54,13 @@
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
     font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
     user-select: none;
     @media (max-width: 620px) {
       height: calc((100vw - 20px) / 9);
       font-size: 20px;
+    }
+    &.inputed {
+      background-color: #ff9;
     }
     &:nth-child(9n) {
       border-right: 2px solid #999;
