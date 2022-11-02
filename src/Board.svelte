@@ -1,34 +1,22 @@
 <script lang="ts">
   import CellInput from "./CellInput.svelte"
-
-  type CellType = {
-    num: number
-    inputed: boolean
-    element?: HTMLInputElement
-  }
-
-  const CELL_NUMBER = 81
-
-  let cells: CellType[] = [...Array(CELL_NUMBER)].map(() => ({
-    num: 0,
-    inputed: false,
-  }))
+  import { cells, CELL_NUMBER } from "./stores"
 
   const onInput = (num: number, i: number) => {
-    cells[i].num = num
-    cells[i].inputed = num !== 0
+    $cells[i].num = num
+    $cells[i].inputed = num !== 0
     if (i + 1 < CELL_NUMBER) {
-      cells[i + 1].element?.focus()
+      $cells[i + 1].element?.focus()
     }
   }
 
   const setElement = (element: HTMLInputElement, i: number) => {
-    cells[i].element = element
+    $cells[i].element = element
   }
 </script>
 
 <ul class="board">
-  {#each cells as { num, inputed }, i}
+  {#each $cells as { num, inputed }, i}
     <li class="cell" class:inputed>
       <CellInput
         {num}
