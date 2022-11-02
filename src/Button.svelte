@@ -1,8 +1,9 @@
 <script lang="ts">
   export let variant: "primary" | "secondary"
+  export let disabled = false
 </script>
 
-<button type="button" class="btn {variant}" on:click>
+<button type="button" class="btn {variant}" on:click {disabled}>
   <slot />
 </button>
 
@@ -21,11 +22,15 @@
     &:hover {
       opacity: 0.8;
     }
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
     &.primary {
       background-color: #69c;
     }
     &.secondary {
-      background-color: #bbb;
+      background-color: #999;
     }
   }
 </style>
