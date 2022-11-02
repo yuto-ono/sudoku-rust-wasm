@@ -4,10 +4,10 @@
 
 <div class="btn-box">
   <div class="btn-wrapper">
-    <Button variant="solve">実行</Button>
+    <Button variant="primary">実行</Button>
   </div>
   <div class="btn-wrapper">
-    <Button variant="reset">リセット</Button>
+    <Button variant="secondary">リセット</Button>
   </div>
 </div>
 

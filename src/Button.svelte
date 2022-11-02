@@ -1,25 +1,30 @@
 <script lang="ts">
-  export let variant: "solve" | "reset"
+  export let variant: "primary" | "secondary"
 </script>
 
-<button type="button" class="btn {variant}">
+<button type="button" class="btn {variant}" on:click>
   <slot />
 </button>
 
 <style lang="scss">
-  @use "btn-base" as *;
   .btn {
-    @extend %btn-base;
+    display: inline-block;
+    border: none;
+    outline: none;
     padding: 5px 20px;
     border-radius: 6px;
-    background-color: #69c;
     color: #fff;
     font-size: 20px;
     font-weight: bold;
-    &.solve {
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+      opacity: 0.8;
+    }
+    &.primary {
       background-color: #69c;
     }
-    &.reset {
+    &.secondary {
       background-color: #bbb;
     }
   }
