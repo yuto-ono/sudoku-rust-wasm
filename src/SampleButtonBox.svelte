@@ -1,13 +1,19 @@
 <script lang="ts">
   import Button from "./Button.svelte"
+  import { sample1, sample2 } from "./samples"
+  import { setNumberArray } from "./stores"
 </script>
 
 <div class="btn-box">
   <div class="btn-wrapper">
-    <Button variant="primary">サンプル1</Button>
+    <Button variant="primary" on:click={() => setNumberArray(sample1)}>
+      サンプル1
+    </Button>
   </div>
   <div class="btn-wrapper">
-    <Button variant="primary">サンプル2</Button>
+    <Button variant="primary" on:click={() => setNumberArray(sample2)}>
+      サンプル2
+    </Button>
   </div>
 </div>
 

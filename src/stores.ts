@@ -14,3 +14,14 @@ export const cells = writable<CellType[]>(
     inputed: false,
   }))
 )
+
+export const setNumberArray = (nums: number[]) => {
+  if (nums.length === CELL_NUMBER) {
+    cells.set(
+      nums.map((num) => ({
+        num,
+        inputed: num !== 0,
+      }))
+    )
+  }
+}
