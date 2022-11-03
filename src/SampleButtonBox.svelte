@@ -1,17 +1,17 @@
 <script lang="ts">
   import Button from "./Button.svelte"
   import { sample1, sample2 } from "./samples"
-  import { setNumberArray } from "./stores"
+  import { cells } from "./stores"
 </script>
 
 <div class="btn-box">
   <div class="btn-wrapper">
-    <Button variant="primary" on:click={() => setNumberArray(sample1)}>
+    <Button variant="primary" on:click={() => cells.setArray(sample1)}>
       サンプル1
     </Button>
   </div>
   <div class="btn-wrapper">
-    <Button variant="primary" on:click={() => setNumberArray(sample2)}>
+    <Button variant="primary" on:click={() => cells.setArray(sample2)}>
       サンプル2
     </Button>
   </div>

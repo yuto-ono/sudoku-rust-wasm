@@ -1,17 +1,17 @@
 <script lang="ts">
   import CellInput from "./CellInput.svelte"
-  import { cells, CELL_NUMBER } from "./stores"
+  import { CELL_NUMBER } from "./constants"
+  import { cells } from "./stores"
 
   const onInput = (num: number, i: number) => {
-    $cells[i].num = num
-    $cells[i].inputed = num !== 0
+    cells.updateCell(i, { num, inputed: num !== 0 })
     if (i + 1 < CELL_NUMBER) {
       $cells[i + 1].element?.focus()
     }
   }
 
   const setElement = (element: HTMLInputElement, i: number) => {
-    $cells[i].element = element
+    cells.updateCell(i, { element })
   }
 </script>
 
