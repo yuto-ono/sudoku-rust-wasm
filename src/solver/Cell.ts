@@ -8,11 +8,11 @@ const DEFAULT_CANDIDATES = 0x3fe
  * 連結リストのアイテムとしても機能する
  */
 class Cell {
-  pos: number
   value: number
   length = 0
   prev: Cell
   next: Cell
+  private pos: number
   private candidates = 0
   private relatedCells: Cell[] = []
   private changedCells: Cell[] = []
