@@ -12,6 +12,7 @@ export type CellsStore = Readable<CellType[]> & {
   setArray: (nums: number[]) => void
   setSolvedArray: (nums: number[]) => void
   reset: () => void
+  undo: () => void
 }
 
 export const createCells = (): CellsStore => {
@@ -57,11 +58,23 @@ export const createCells = (): CellsStore => {
     }
   }
 
+  const undo = () => {
+    update((cells) => {
+      cells.forEach((cell) => {
+        if (!cell.inputed) {
+          cell.num = 0
+        }
+      })
+      return cells
+    })
+  }
+
   return {
     subscribe,
     updateCell,
     setArray,
     setSolvedArray,
     reset: () => set(generateInitalCells()),
+    undo,
   }
 }
