@@ -10,7 +10,7 @@
   }>()
 
   const onInput = ({ currentTarget }: { currentTarget: HTMLInputElement }) => {
-    if (/^\d?$/.test(currentTarget.value)) {
+    if (/^[1-9]?$/.test(currentTarget.value)) {
       oldValue = currentTarget.value
       dispatch("input", { num: toNumber(currentTarget.value) })
     } else {
