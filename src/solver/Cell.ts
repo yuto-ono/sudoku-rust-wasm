@@ -91,7 +91,7 @@ class Cell {
       cell.candidates ^= mask
       cell.length++
     })
-    this.changedCells.length = 0
+    this.changedCells.splice(0)
     this.value = 0
   }
 
