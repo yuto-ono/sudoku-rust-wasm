@@ -11,7 +11,7 @@
   <div class="container">
     <Board />
     <ButtonBox />
-    <Timer time={0} />
+    <Timer />
     <SampleButtonBox />
   </div>
 </main>

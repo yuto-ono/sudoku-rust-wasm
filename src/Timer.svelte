@@ -1,10 +1,13 @@
 <script lang="ts">
-  export let time: number
+  import { time } from "./stores"
 </script>
 
 <p class="timer">
   実行時間:
-  <span class="time">{time}</span>ms
+  <span class="time">
+    {$time != null ? $time.toFixed(2) : ""}
+  </span>
+  ms
 </p>
 
 <style lang="scss">

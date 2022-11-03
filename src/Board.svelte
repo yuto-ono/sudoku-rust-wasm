@@ -1,7 +1,7 @@
 <script lang="ts">
   import CellInput from "./CellInput.svelte"
   import { CELL_NUMBER } from "./constants"
-  import { cells } from "./stores"
+  import { cells, solved } from "./stores"
 
   const onInput = (num: number, i: number) => {
     cells.updateCell(i, { num, inputed: num !== 0 })
@@ -18,11 +18,15 @@
 <ul class="board">
   {#each $cells as { num, inputed }, i}
     <li class="cell" class:inputed>
-      <CellInput
-        {num}
-        on:input={(e) => onInput(e.detail.num, i)}
-        on:mount={(e) => setElement(e.detail.element, i)}
-      />
+      {#if $solved}
+        {num === 0 ? "" : num}
+      {:else}
+        <CellInput
+          {num}
+          on:input={(e) => onInput(e.detail.num, i)}
+          on:mount={(e) => setElement(e.detail.element, i)}
+        />
+      {/if}
     </li>
   {/each}
 </ul>
