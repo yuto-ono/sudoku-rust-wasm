@@ -68,7 +68,7 @@ class Cell {
     const mask = 1 << value
     this.value = value
     for (const cell of this.relatedCells) {
-      if (cell.value === 0 && (cell.candidates & mask) === mask) {
+      if (cell.value === 0 && cell.candidates & mask) {
         if (cell.length === 1) {
           this.resetValue()
           return false
@@ -115,7 +115,7 @@ class Cell {
     this.relatedCells.forEach((cell) => {
       if (cell.value !== 0) {
         const mask = 1 << cell.value
-        if ((this.candidates & mask) === mask) {
+        if (this.candidates & mask) {
           this.candidates ^= mask
           this.length--
         }
