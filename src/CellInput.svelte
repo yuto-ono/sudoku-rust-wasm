@@ -7,6 +7,7 @@
   const dispatch = createEventDispatcher<{
     input: { num: number }
     mount: { element: HTMLInputElement }
+    move: { direction: "up" | "down" | "left" | "right" }
   }>()
 
   const onInput = ({ currentTarget }: { currentTarget: HTMLInputElement }) => {
@@ -15,6 +16,23 @@
       dispatch("input", { num: toNumber(currentTarget.value) })
     } else {
       currentTarget.value = oldValue
+    }
+  }
+
+  const onKeyDown = ({ keyCode }: { keyCode: number }) => {
+    switch (keyCode) {
+      case 37:
+        dispatch("move", { direction: "left" })
+        break
+      case 38:
+        dispatch("move", { direction: "up" })
+        break
+      case 39:
+        dispatch("move", { direction: "right" })
+        break
+      case 40:
+        dispatch("move", { direction: "down" })
+        break
     }
   }
 
@@ -32,6 +50,7 @@
   type="tel"
   value={num === 0 ? "" : num}
   on:input={onInput}
+  on:keydown={onKeyDown}
   bind:this={element}
 />
 

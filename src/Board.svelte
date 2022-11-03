@@ -12,6 +12,23 @@
   const setElement = (element: HTMLInputElement, i: number) => {
     elements[i] = element
   }
+
+  const onMove = (direction: "up" | "down" | "left" | "right", i: number) => {
+    switch (direction) {
+      case "up":
+        elements[i - 9]?.focus()
+        break
+      case "down":
+        elements[i + 9]?.focus()
+        break
+      case "left":
+        elements[i - 1]?.focus()
+        break
+      case "right":
+        elements[i + 1]?.focus()
+        break
+    }
+  }
 </script>
 
 <ul class="board">
@@ -24,6 +41,7 @@
           {num}
           on:input={(e) => onInput(e.detail.num, i)}
           on:mount={(e) => setElement(e.detail.element, i)}
+          on:move={(e) => onMove(e.detail.direction, i)}
         />
       {/if}
     </li>
