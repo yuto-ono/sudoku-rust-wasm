@@ -1,3 +1,7 @@
+// 1-9 すべて候補に上がっている状態の candidates
+// ビットで候補を管理している（2進数で 1111111110）
+const DEFAULT_CANDIDATES = 0x3fe
+
 /**
  * それぞれのマスを表すクラス
  * そのマスの候補のリストとしても機能する
@@ -6,12 +10,12 @@
 class Cell {
   pos: number
   value: number
-  length: number
-  candidates: number
+  length = 0
   prev: Cell
   next: Cell
-  relatedCells: Cell[] = []
-  changedCells: Cell[] = []
+  private candidates = 0
+  private relatedCells: Cell[] = []
+  private changedCells: Cell[] = []
 
   constructor(pos: number, value: number) {
     this.pos = pos
@@ -19,12 +23,9 @@ class Cell {
     this.prev = this
     this.next = this
 
-    if (value !== 0) {
-      this.length = 0
-      this.candidates = 0
-    } else {
+    if (value === 0) {
       this.length = 9
-      this.candidates = 0x3fe
+      this.candidates = DEFAULT_CANDIDATES
     }
   }
 
@@ -39,6 +40,7 @@ class Cell {
     const area33top = Math.floor(row / 3) * 3
     const area33left = Math.floor(col / 3) * 3
 
+    // 関連セルの追加
     for (let i = 0; i < 9; i++) {
       const row33 = area33top + Math.floor(i / 3)
       const col33 = area33left + (i % 3)
@@ -54,7 +56,15 @@ class Cell {
       }
     } else {
       // 候補リストの作成
-      this.setCandidates()
+      this.relatedCells.forEach((cell) => {
+        if (cell.value !== 0) {
+          const mask = 1 << cell.value
+          if (this.candidates & mask) {
+            this.candidates ^= mask
+            this.length--
+          }
+        }
+      })
     }
 
     return true
@@ -66,6 +76,9 @@ class Cell {
    */
   setValue(value: number): boolean {
     const mask = 1 << value
+    if ((this.candidates & mask) === 0) {
+      return false
+    }
     this.value = value
     for (const cell of this.relatedCells) {
       if (cell.value === 0 && cell.candidates & mask) {
@@ -98,7 +111,7 @@ class Cell {
   /**
    * 指定位置のセルを関連セルのリストに追加
    */
-  addRelatedCell(cells: Cell[], row: number, col: number): void {
+  private addRelatedCell(cells: Cell[], row: number, col: number): void {
     const pos = row * 9 + col
     if (pos !== this.pos) {
       const cell = cells[pos]
@@ -106,21 +119,6 @@ class Cell {
         this.relatedCells.push(cell)
       }
     }
-  }
-
-  /**
-   * 候補リストをセット
-   */
-  setCandidates(): void {
-    this.relatedCells.forEach((cell) => {
-      if (cell.value !== 0) {
-        const mask = 1 << cell.value
-        if (this.candidates & mask) {
-          this.candidates ^= mask
-          this.length--
-        }
-      }
-    })
   }
 }
 

@@ -1,12 +1,15 @@
 import Cell from "./Cell"
 
+// 最小の要素を探すための初期値
+const MIN_LENGTH_INITIAL = 10
+
 /**
  * 空きマスリスト
  * 双方向連結リストによる実装
  */
 class EmptyList {
-  head: Cell
   length = 0
+  private head: Cell
 
   constructor() {
     this.head = new Cell(0, 0)
@@ -29,10 +32,9 @@ class EmptyList {
   popMin(): Cell {
     let cell = this.head
     let selectedCell = this.head
-    let minLength = 10
+    let minLength = MIN_LENGTH_INITIAL
 
-    while (cell.next !== this.head) {
-      cell = cell.next
+    while ((cell = cell.next) !== this.head) {
       if (cell.length === 1) {
         selectedCell = cell
         break

@@ -1,18 +1,20 @@
 import Cell from "./Cell"
 import EmptyList from "./EmptyList"
 
+const CELL_NUMBER = 81
+
 /**
  * 数独の盤面を管理し、解くクラス
  */
 class Solver {
-  cells: Cell[] = []
   isValid = true
-  emptyList: EmptyList
+  private cells: Cell[] = []
+  private emptyList: EmptyList
 
   constructor(data: number[]) {
     this.emptyList = new EmptyList()
 
-    if (data.length !== 81) {
+    if (data.length !== CELL_NUMBER) {
       this.isValid = false
       return
     }
@@ -46,14 +48,11 @@ class Solver {
 
     // 候補に上がっている数字を入れてみる
     for (let i = 1; i <= 9; i++) {
-      const mask = 1 << i
-      if (cell.candidates & mask) {
-        if (cell.setValue(i)) {
-          if (this.solve()) {
-            return true
-          }
-          cell.resetValue()
+      if (cell.setValue(i)) {
+        if (this.solve()) {
+          return true
         }
+        cell.resetValue()
       }
     }
 
