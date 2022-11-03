@@ -41,7 +41,9 @@
     {/if}
   </div>
   <div class="btn-wrapper">
-    <Button variant="secondary" on:click={reset}>リセット</Button>
+    <Button variant="secondary" on:click={reset} disabled={$cellsIsEmpty}>
+      リセット
+    </Button>
   </div>
 </div>
 
