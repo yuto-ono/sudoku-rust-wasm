@@ -100,7 +100,7 @@ class Cell {
    */
   addRelatedCell(cells: Cell[], row: number, col: number): void {
     const pos = row * 9 + col
-    if (pos != this.pos) {
+    if (pos !== this.pos) {
       const cell = cells[pos]
       if (!this.relatedCells.includes(cell)) {
         this.relatedCells.push(cell)

@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from "./Button.svelte"
-  import { cells, solved, time } from "./stores"
+  import { cells, cellsIsEmpty, solved, time } from "./stores"
   import { Solver } from "./solver"
 
   const solve = () => {
@@ -33,7 +33,9 @@
 <div class="btn-box">
   <div class="btn-wrapper">
     {#if !$solved}
-      <Button variant="primary" on:click={solve}>実行</Button>
+      <Button variant="primary" on:click={solve} disabled={$cellsIsEmpty}>
+        実行
+      </Button>
     {:else}
       <Button variant="primary" on:click={undo}>戻す</Button>
     {/if}
