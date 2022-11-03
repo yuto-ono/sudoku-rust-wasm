@@ -4,18 +4,19 @@
   import { Solver } from "./solver"
 
   const solve = () => {
+    const startTime = performance.now()
     const solver = new Solver($cells.map((cell) => cell.num))
     if (!solver.isValid) {
       alert("重複があります。")
+      return
+    }
+    const _solved = solver.solve()
+    $time = performance.now() - startTime
+    if (_solved) {
+      cells.setSolvedArray(solver.getNumberArray())
+      $solved = true
     } else {
-      const startTime = performance.now()
-      $solved = solver.solve()
-      $time = performance.now() - startTime
-      if ($solved) {
-        cells.setSolvedArray(solver.getNumberArray())
-      } else {
-        alert("解けませんでした。")
-      }
+      alert("解けませんでした。")
     }
   }
 

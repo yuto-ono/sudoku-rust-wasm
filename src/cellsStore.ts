@@ -1,14 +1,13 @@
 import { writable, type Readable } from "svelte/store"
-import { CELL_NUMBER } from "./constants"
+import { CELL_NUMBER } from "./stores"
 
 export type CellType = {
   num: number
   inputed: boolean
-  element?: HTMLInputElement
 }
 
 export type CellsStore = Readable<CellType[]> & {
-  updateCell: (index: number, payload: Partial<CellType>) => void
+  updateCell: (index: number, cell: CellType) => void
   setArray: (nums: number[]) => void
   setSolvedArray: (nums: number[]) => void
   reset: () => void
@@ -24,16 +23,13 @@ export const createCells = (): CellsStore => {
   }
   const { subscribe, set, update } = writable(generateInitalCells())
 
-  const updateCell = (index: number, payload: Partial<CellType>) => {
-    if (index < CELL_NUMBER) {
-      update((cells) => {
-        const cell = cells[index]
-        cell.num = payload.num ?? cell.num
-        cell.inputed = payload.inputed ?? cell.inputed
-        cell.element = payload.element ?? cell.element
-        return cells
-      })
-    }
+  const updateCell = (index: number, cell: CellType) => {
+    update((cells) => {
+      if (index < cells.length) {
+        cells[index] = cell
+      }
+      return cells
+    })
   }
 
   const setArray = (nums: number[]) => {
