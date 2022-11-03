@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+  let timeout: NodeJS.Timeout | undefined
+</script>
+
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte"
 
@@ -36,6 +40,13 @@
     }
   }
 
+  const onFocus = () => {
+    if (timeout != null) {
+      clearTimeout(timeout)
+    }
+    timeout = setTimeout(() => element.select(), 10)
+  }
+
   const toNumber = (value: string): number => {
     return value === "" ? 0 : Number(value)
   }
@@ -51,6 +62,7 @@
   value={num === 0 ? "" : num}
   on:input={onInput}
   on:keydown={onKeyDown}
+  on:focus={onFocus}
   bind:this={element}
 />
 
