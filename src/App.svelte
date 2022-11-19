@@ -7,7 +7,7 @@
 </script>
 
 <main class="main">
-  <Title>数独を一瞬で解いてしまうプログラム</Title>
+  <Title>数独を一瞬で解いてしまうプログラム（Rust版）</Title>
   <div class="container">
     <Board />
     <ButtonBox />
