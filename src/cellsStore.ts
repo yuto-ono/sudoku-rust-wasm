@@ -9,7 +9,7 @@ export type CellType = {
 export type CellsStore = Readable<CellType[]> & {
   updateCell: (index: number, cell: CellType) => void
   setArray: (nums: number[]) => void
-  setSolvedArray: (nums: number[]) => void
+  setSolvedArray: (nums: Uint32Array) => void
   reset: () => void
   undo: () => void
 }
@@ -43,7 +43,7 @@ export const createCells = (): CellsStore => {
     }
   }
 
-  const setSolvedArray = (nums: number[]) => {
+  const setSolvedArray = (nums: Uint32Array) => {
     if (nums.length === CELL_NUMBER) {
       update((cells) => {
         cells.forEach((cell, i) => {

@@ -1,22 +1,18 @@
 <script lang="ts">
   import Button from "./Button.svelte"
   import { cells, cellsIsEmpty, solved, time } from "./stores"
-  import { Solver } from "./solver"
+  import { solve } from "../wasm/pkg"
 
-  const solve = () => {
+  const _solve = () => {
     const startTime = performance.now()
-    const solver = new Solver($cells.map((cell) => cell.num))
-    if (!solver.isValid) {
-      alert("重複があります。")
-      return
-    }
-    const _solved = solver.solve()
+    const numArray = Uint32Array.from($cells.map((cell) => cell.num))
+    const result = solve(numArray)
     $time = performance.now() - startTime
-    if (_solved) {
-      cells.setSolvedArray(solver.getNumberArray())
+    if (result === 0) {
+      cells.setSolvedArray(numArray)
       $solved = true
     } else {
-      alert("解けませんでした。")
+      alert(`result: ${result}`)
     }
   }
 
@@ -34,7 +30,7 @@
 <div class="btn-box">
   <div class="btn-wrapper">
     {#if !$solved}
-      <Button variant="primary" on:click={solve} disabled={$cellsIsEmpty}>
+      <Button variant="primary" on:click={_solve} disabled={$cellsIsEmpty}>
         実行
       </Button>
     {:else}
