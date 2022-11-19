@@ -1,18 +1,30 @@
 <script lang="ts">
   import Button from "./Button.svelte"
   import { cells, cellsIsEmpty, solved, time } from "./stores"
-  import { solve } from "../wasm/pkg"
+  import { solve, SolveStatus } from "./solver"
 
-  const _solve = () => {
+  const invokeSolve = () => {
     const startTime = performance.now()
     const numArray = Uint32Array.from($cells.map((cell) => cell.num))
     const result = solve(numArray)
     $time = performance.now() - startTime
-    if (result === 0) {
-      cells.setSolvedArray(numArray)
-      $solved = true
-    } else {
-      alert(`result: ${result}`)
+    switch (result) {
+      case SolveStatus.success:
+        cells.setSolvedArray(numArray)
+        $solved = true
+        break
+      case SolveStatus.duplicated:
+        alert("重複があります。")
+        break
+      case SolveStatus.noEmpty:
+        alert("空白のマスがありません。")
+        break
+      case SolveStatus.unsolvable:
+        alert("解けませんでした。")
+        break
+      default:
+        alert("不正な入力です。")
+        break
     }
   }
 
@@ -30,7 +42,7 @@
 <div class="btn-box">
   <div class="btn-wrapper">
     {#if !$solved}
-      <Button variant="primary" on:click={_solve} disabled={$cellsIsEmpty}>
+      <Button variant="primary" on:click={invokeSolve} disabled={$cellsIsEmpty}>
         実行
       </Button>
     {:else}

@@ -43,7 +43,7 @@ export const createCells = (): CellsStore => {
     }
   }
 
-  const setSolvedArray = (nums: Uint32Array) => {
+  const setSolvedArray = (nums: number[] | Uint32Array) => {
     if (nums.length === CELL_NUMBER) {
       update((cells) => {
         cells.forEach((cell, i) => {
