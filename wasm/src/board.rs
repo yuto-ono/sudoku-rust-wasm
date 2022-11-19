@@ -42,7 +42,7 @@ impl Board {
      * 再帰呼び出しにより、数独を解く
      */
     pub fn solve(&mut self) -> bool {
-        let mut changed_ids: [usize; RELATED_LENGTH] = [0; RELATED_LENGTH];
+        let mut changed_ids = [0; RELATED_LENGTH];
         let mut changed_length: usize = 0;
         let selected_i = match self.cells.iter().find(|cell| cell.num == 0) {
             Some(cell) => cell.pos,
