@@ -1,11 +1,11 @@
 # 各マスの関連セルのインデックスを予め計算してソースコードぬ埋め込むためのスクリプト
-BOARD_NUM = 81
-
 File.open("related_ids.rs", "w") do |f|
+  f.puts "// このファイルは related_ids_gen.rb により自動生成されました"
+  f.puts
   f.puts "use super::super::constants::*;"
   f.puts
   f.puts "pub const RELATED_IDS: [[usize; RELATED_LENGTH]; BOARD_NUM] = ["
-  BOARD_NUM.times do |pos|
+  81.times do |pos|
     related_ids = []
     row = pos / 9
     col = pos % 9
@@ -20,9 +20,7 @@ File.open("related_ids.rs", "w") do |f|
     end
     related_ids = related_ids.uniq().select{ |id| id != pos }.sort()
     f.puts "    ["
-    f.write "        "
-    f.write related_ids.join(", ")
-    f.puts ","
+    f.puts "        #{related_ids.join(", ")},"
     f.puts "    ],"
   end
   f.puts "];"

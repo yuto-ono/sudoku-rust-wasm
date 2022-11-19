@@ -1,3 +1,5 @@
+// このファイルは related_ids_gen.rb により自動生成されました
+
 use super::super::constants::*;
 
 pub const RELATED_IDS: [[usize; RELATED_LENGTH]; BOARD_NUM] = [
