@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from "./Button.svelte"
-  import { sample1, sample2 } from "./samples"
+  import { sample1, sample2 } from "./samples.json"
   import { cells, solved } from "./stores"
 
   const setSample = (sample: number[]) => {
@@ -11,12 +11,12 @@
 
 <div class="btn-box">
   <div class="btn-wrapper">
-    <Button variant="primary" on:click={() => setSample(sample1)}>
+    <Button variant="primary" on:click={() => setSample(sample1.flat())}>
       サンプル1
     </Button>
   </div>
   <div class="btn-wrapper">
-    <Button variant="primary" on:click={() => setSample(sample2)}>
+    <Button variant="primary" on:click={() => setSample(sample2.flat())}>
       サンプル2
     </Button>
   </div>
