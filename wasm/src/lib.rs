@@ -1,10 +1,10 @@
 mod board;
-mod constants;
+pub mod constants;
 use board::Board;
 use constants::BOARD_NUM;
 use wasm_bindgen::prelude::*;
 
-enum SolveStatus {
+pub enum SolveStatus {
     Success,
     InvalidLength,
     NoEmpty,
