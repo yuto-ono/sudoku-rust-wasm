@@ -27,10 +27,10 @@
       opacity: 0.5;
     }
     &.primary {
-      background-color: #69c;
+      background-color: #369;
     }
     &.secondary {
-      background-color: #999;
+      background-color: #666;
     }
   }
 </style>
