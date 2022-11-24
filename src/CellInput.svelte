@@ -4,6 +4,7 @@
 
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte"
+  import { solved } from "./stores"
 
   export let num: number
   let oldValue = ""
@@ -60,6 +61,7 @@
   class="input"
   type="tel"
   value={num === 0 ? "" : num}
+  disabled={$solved}
   on:input={onInput}
   on:keydown={onKeyDown}
   on:focus={onFocus}

@@ -1,6 +1,6 @@
 <script lang="ts">
   import CellInput from "./CellInput.svelte"
-  import { cells, solved } from "./stores"
+  import { cells } from "./stores"
 
   const elements: HTMLInputElement[] = []
 
@@ -34,16 +34,12 @@
 <ul class="board">
   {#each $cells as { num, inputed }, i}
     <li class="cell" class:inputed>
-      {#if $solved}
-        {num === 0 ? "" : num}
-      {:else}
-        <CellInput
-          {num}
-          on:input={(e) => onInput(e.detail.num, i)}
-          on:mount={(e) => setElement(e.detail.element, i)}
-          on:move={(e) => onMove(e.detail.direction, i)}
-        />
-      {/if}
+      <CellInput
+        {num}
+        on:input={(e) => onInput(e.detail.num, i)}
+        on:mount={(e) => setElement(e.detail.element, i)}
+        on:move={(e) => onMove(e.detail.direction, i)}
+      />
     </li>
   {/each}
 </ul>
