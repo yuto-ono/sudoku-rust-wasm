@@ -77,5 +77,7 @@
     text-align: center;
     font-family: inherit;
     font-size: inherit;
+    color: inherit;
+    opacity: 1;
   }
 </style>
