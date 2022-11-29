@@ -1,7 +1,6 @@
-use super::constants::BOARD_NUM;
-mod masks;
-use masks::MASKS;
+use crate::constants::*;
 
+// 空きマスが1つもないことを判定するビット列
 const NO_EMPTY: u128 = (1 << BOARD_NUM) - 1;
 
 #[derive(Debug, PartialEq)]
@@ -13,6 +12,9 @@ pub enum SolveStatus {
     Unsolvable,
 }
 
+/**
+ * 数独を解く
+ */
 pub fn solve(num_array: &mut [u32]) -> SolveStatus {
     if num_array.len() != BOARD_NUM {
         return SolveStatus::InvalidLength; // 配列の長さが違う
@@ -20,7 +22,7 @@ pub fn solve(num_array: &mut [u32]) -> SolveStatus {
 
     let mut board = [0u128; 10];
 
-    if !set_num_array(&mut board, num_array) {
+    if !num_array_to_bitboard(&mut board, num_array) {
         return SolveStatus::Duplicated; // 重複がある
     }
     if board[0] == NO_EMPTY {
@@ -42,7 +44,11 @@ fn set_num(board: &mut [u128], pos: usize, bit: u128, num: usize) -> bool {
     true
 }
 
-fn set_num_array(board: &mut [u128], num_array: &mut [u32]) -> bool {
+/**
+ * 配列からビットボードを生成
+ * 重複があれば false を返す
+ */
+fn num_array_to_bitboard(board: &mut [u128], num_array: &mut [u32]) -> bool {
     for (i, &num) in num_array.iter().enumerate() {
         if num != 0 {
             let bit: u128 = 1 << i;
@@ -54,6 +60,10 @@ fn set_num_array(board: &mut [u128], num_array: &mut [u32]) -> bool {
     true
 }
 
+/**
+ * solve の内部処理（再帰関数）
+ * 解けたら true, 解けなかったら false を返す
+ */
 fn solve_recursive(board: &mut [u128], mut pos: usize, mut bit: u128) -> bool {
     loop {
         if pos == BOARD_NUM {
@@ -79,6 +89,9 @@ fn solve_recursive(board: &mut [u128], mut pos: usize, mut bit: u128) -> bool {
     false
 }
 
+/**
+ * ビットボードを配列に出力
+ */
 fn output_array(board: &[u128], num_array: &mut [u32]) {
     for i in 0..BOARD_NUM {
         let bit = 1 << i;
