@@ -3,8 +3,6 @@
 #![cfg(target_arch = "wasm32")]
 
 extern crate wasm_bindgen_test;
-use sudoku_wasm::constants::BOARD_NUM;
-use sudoku_wasm::solver::SolveStatus;
 use sudoku_wasm::*;
 use wasm_bindgen_test::*;
 
@@ -42,15 +40,15 @@ fn unsolvable() {
     assert_eq!(solve_status, SolveStatus::Unsolvable as u32);
 }
 
-fn flatten(array2d: &[[u32; 9]]) -> [u32; BOARD_NUM] {
+fn flatten(array2d: &[[u32; COL_NUM]]) -> [u32; BOARD_NUM] {
     let mut num_array = [0; BOARD_NUM];
     for i in 0..BOARD_NUM {
-        num_array[i] = array2d[i / 9][i % 9];
+        num_array[i] = array2d[i / COL_NUM][i % COL_NUM];
     }
     num_array
 }
 
-const SAMPLE1_ARRAY: [[u32; 9]; 9] = [
+const SAMPLE1_ARRAY: [[u32; COL_NUM]; COL_NUM] = [
     [8, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 3, 6, 0, 0, 0, 0, 0],
     [0, 7, 0, 0, 9, 0, 2, 0, 0],
@@ -62,7 +60,7 @@ const SAMPLE1_ARRAY: [[u32; 9]; 9] = [
     [0, 9, 0, 0, 0, 0, 4, 0, 0],
 ];
 
-const ANSWER1_ARRAY: [[u32; 9]; 9] = [
+const ANSWER1_ARRAY: [[u32; COL_NUM]; COL_NUM] = [
     [8, 1, 2, 7, 5, 3, 6, 4, 9],
     [9, 4, 3, 6, 8, 2, 1, 7, 5],
     [6, 7, 5, 4, 9, 1, 2, 8, 3],
@@ -74,7 +72,7 @@ const ANSWER1_ARRAY: [[u32; 9]; 9] = [
     [7, 9, 6, 3, 1, 8, 4, 5, 2],
 ];
 
-const SAMPLE2_ARRAY: [[u32; 9]; 9] = [
+const SAMPLE2_ARRAY: [[u32; COL_NUM]; COL_NUM] = [
     [0, 0, 5, 3, 0, 0, 0, 0, 0],
     [8, 0, 0, 0, 0, 0, 0, 2, 0],
     [0, 7, 0, 0, 1, 0, 5, 0, 0],
@@ -86,7 +84,7 @@ const SAMPLE2_ARRAY: [[u32; 9]; 9] = [
     [0, 0, 0, 0, 0, 9, 7, 0, 0],
 ];
 
-const ANSWER2_ARRAY: [[u32; 9]; 9] = [
+const ANSWER2_ARRAY: [[u32; COL_NUM]; COL_NUM] = [
     [1, 4, 5, 3, 2, 7, 6, 9, 8],
     [8, 3, 9, 6, 5, 4, 1, 2, 7],
     [6, 7, 2, 9, 1, 8, 5, 4, 3],
