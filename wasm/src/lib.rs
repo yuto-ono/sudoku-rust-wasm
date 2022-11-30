@@ -5,11 +5,6 @@ pub const COL_NUM: usize = 9;
 pub const BOARD_NUM: usize = COL_NUM * COL_NUM;
 
 /**
- * 空きマスが1つもないことを判定するビット列
- */
-const NO_EMPTY: u128 = (1 << BOARD_NUM) - 1;
-
-/**
  * ビットボードの配列の長さ
  */
 const BITBOARD_LEN: usize = COL_NUM + 1;
@@ -61,7 +56,7 @@ pub fn solve(num_array: &mut [u32]) -> u32 {
     if !num_array_to_bitboard(&mut board, num_array) {
         return SolveStatus::Duplicated as u32; // 重複がある
     }
-    if board[0] == NO_EMPTY {
+    if board[0] == 0 {
         return SolveStatus::NoEmpty as u32; // 空きマスがない
     }
     if !solve_recursive(&mut board, 0, 1) {
@@ -77,14 +72,10 @@ pub fn solve(num_array: &mut [u32]) -> u32 {
  */
 fn num_array_to_bitboard(board: &mut [u128], num_array: &mut [u32]) -> bool {
     for (i, &num) in num_array.iter().enumerate() {
-        if num != 0 {
-            let bit: u128 = 1 << i;
-            if (board[num as usize] & MASKS[i]) != 0 {
-                return false;
-            }
-            board[0] |= bit; // board[0] は何らかの数字が入っている所にビットを立てる
-            board[num as usize] |= bit;
+        if num != 0 && (board[num as usize] & MASKS[i]) != 0 {
+            return false;
         }
+        board[num as usize] |= 1 << i;
     }
     true
 }
@@ -99,7 +90,7 @@ fn solve_recursive(board: &mut [u128], mut pos: usize, mut bit: u128) -> bool {
         if pos == BOARD_NUM {
             return true;
         }
-        if (board[0] & bit) == 0 {
+        if (board[0] & bit) != 0 {
             break;
         }
         pos += 1;
@@ -109,13 +100,11 @@ fn solve_recursive(board: &mut [u128], mut pos: usize, mut bit: u128) -> bool {
     // 数字を入れてみる
     for i in 1..BITBOARD_LEN {
         if (board[i] & MASKS[pos]) == 0 {
-            board[0] |= bit;
             board[i] |= bit;
             // 再帰的に探索
             if solve_recursive(board, pos + 1, bit << 1) {
                 return true;
             }
-            board[0] ^= bit;
             board[i] ^= bit;
         }
     }
@@ -129,7 +118,6 @@ fn solve_recursive(board: &mut [u128], mut pos: usize, mut bit: u128) -> bool {
 fn output_array(board: &[u128], num_array: &mut [u32]) {
     for i in 0..BOARD_NUM {
         let bit = 1 << i;
-        num_array[i] = 0;
         for num in 1..BITBOARD_LEN {
             if (board[num] & bit) != 0 {
                 num_array[i] = num as u32;
