@@ -6,4 +6,5 @@ export const SolveStatus = {
   noEmpty: 2,
   duplicated: 3,
   unsolvable: 4,
+  outOfRange: 5,
 } as const

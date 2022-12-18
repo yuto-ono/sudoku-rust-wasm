@@ -40,6 +40,13 @@ fn unsolvable() {
     assert_eq!(solve_status, SolveStatus::Unsolvable as u32);
 }
 
+#[wasm_bindgen_test]
+fn out_of_range() {
+    let mut num_array = flatten(&OUT_OF_RANGE_ARRAY);
+    let solve_status = solve(&mut num_array);
+    assert_eq!(solve_status, SolveStatus::OutOfRange as u32);
+}
+
 fn flatten(array2d: &[[u32; COL_NUM]]) -> [u32; BOARD_NUM] {
     let mut num_array = [0; BOARD_NUM];
     for i in 0..BOARD_NUM {
@@ -110,6 +117,18 @@ const DUPLICATED_ARRAY: [[u32; 9]; 9] = [
 
 const UNSOLVABLE_ARRAY: [[u32; 9]; 9] = [
     [8, 2, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 6, 0, 0, 0, 0, 0],
+    [0, 7, 0, 0, 9, 0, 2, 0, 0],
+    [0, 5, 0, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 0, 4, 5, 7, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 3, 0],
+    [0, 0, 1, 0, 0, 0, 0, 6, 8],
+    [0, 0, 8, 5, 0, 0, 0, 1, 0],
+    [0, 9, 0, 0, 0, 0, 4, 0, 0],
+];
+
+const OUT_OF_RANGE_ARRAY: [[u32; COL_NUM]; COL_NUM] = [
+    [11, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 3, 6, 0, 0, 0, 0, 0],
     [0, 7, 0, 0, 9, 0, 2, 0, 0],
     [0, 5, 0, 0, 0, 7, 0, 0, 0],

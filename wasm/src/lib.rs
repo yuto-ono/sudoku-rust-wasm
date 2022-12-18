@@ -40,6 +40,7 @@ pub enum SolveStatus {
     NoEmpty,       // 空きマスがない
     Duplicated,    // 重複がある
     Unsolvable,    // 解けない
+    OutOfRange,    // 0-9 の以外の値が含まれる
 }
 
 /**
@@ -51,11 +52,18 @@ pub fn solve(num_array: &mut [u32]) -> u32 {
         return SolveStatus::InvalidLength as u32; // 配列の長さが違う
     }
 
+    // ビットボード生成
     let mut board = [0u128; BITBOARD_LEN];
-
-    if !num_array_to_bitboard(&mut board, num_array) {
-        return SolveStatus::Duplicated as u32; // 重複がある
+    for (i, &num) in num_array.iter().enumerate() {
+        if num > COL_NUM as u32 {
+            return SolveStatus::OutOfRange as u32; // 0-9 以外の値を発見
+        }
+        if num != 0 && (board[num as usize] & MASKS[i]) != 0 {
+            return SolveStatus::Duplicated as u32; // 重複がある
+        }
+        board[num as usize] |= 1 << i;
     }
+
     if board[0] == 0 {
         return SolveStatus::NoEmpty as u32; // 空きマスがない
     }
@@ -64,20 +72,6 @@ pub fn solve(num_array: &mut [u32]) -> u32 {
     }
     output_array(&board, num_array);
     SolveStatus::Success as u32 // 解けた
-}
-
-/**
- * 配列からビットボードを生成
- * 重複があれば false を返す
- */
-fn num_array_to_bitboard(board: &mut [u128], num_array: &mut [u32]) -> bool {
-    for (i, &num) in num_array.iter().enumerate() {
-        if num != 0 && (board[num as usize] & MASKS[i]) != 0 {
-            return false;
-        }
-        board[num as usize] |= 1 << i;
-    }
-    true
 }
 
 /**
